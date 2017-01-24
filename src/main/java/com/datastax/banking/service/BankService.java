@@ -10,19 +10,23 @@ import com.datastax.demo.utils.PropertyHelper;
 
 public class BankService {
 
-	private String contactPointsStr = PropertyHelper.getProperty("contactPoints", "localhost");
+	private static String contactPointsStr = PropertyHelper.getProperty("contactPoints", "localhost");
+	private static BankService bankService;
 	private BankDao dao;
 	
-	public BankService(){
-		this.dao = new BankDao(contactPointsStr.split(","));
+	private BankService(){
+		dao = new BankDao(contactPointsStr.split(","));
 	}
 	
+	public static BankService getInstance(){
+		return bankService;		
+	}
 	
 	public Customer getCustomer(String customerId){
 		
 		return dao.getCustomer(customerId);
 	}
-	
+		
 	public List<Account> getAccounts(String customerId){
 		
 		return dao.getCustomerAccounts(customerId);

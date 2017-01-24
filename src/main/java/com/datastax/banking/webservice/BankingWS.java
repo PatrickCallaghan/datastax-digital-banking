@@ -31,7 +31,7 @@ public class BankingWS {
 
 	//Service Layer.
 	private SearchService service = new SearchServiceImpl();
-	private BankService bankService = new BankService();
+	private BankService bankService = BankService.getInstance();
 
 	
 	@GET
