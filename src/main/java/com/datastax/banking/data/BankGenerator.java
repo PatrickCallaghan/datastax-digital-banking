@@ -28,6 +28,7 @@ public class BankGenerator {
 	private static AtomicInteger customerIdGenerator = new AtomicInteger(1);
 	private static List<String> accountTypes = Arrays.asList("Current", "Joint Current", "Saving", "Mortgage", "E-Saving", "Deposit");
 	private static List<String> accountIds = new ArrayList<String>();
+	private static Map<String, List<Account>> accountsMap = new HashMap<String, List<Account>>();
 	
 	//We can change this from the Main
 	public static DateTime date = new DateTime().minusDays(180).withTimeAtStartOfDay();
@@ -104,8 +105,13 @@ public class BankGenerator {
 
 		//Random account	
 		String customerId = getRandomCustomerId(noOfCustomers);
-		
-		List<Account> accounts = bankService.getAccounts(customerId);
+
+		List<Account> accounts;
+		if (accountsMap.containsKey(customerId)){
+			accounts = accountsMap.get(customerId);
+		}else{
+			accounts = bankService.getAccounts(customerId);
+		}
 
 		if (accounts.size() == 0){
 			return null;

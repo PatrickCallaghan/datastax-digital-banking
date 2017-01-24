@@ -76,7 +76,7 @@ public class Main {
 			}
 			
 			if (i%10000 == 0){
-				sleep(100);
+				sleep(10);
 			}
 		}
 		timer.end();		
@@ -163,5 +163,4 @@ public class Main {
 
 		System.exit(0);
 	}
-
 }
