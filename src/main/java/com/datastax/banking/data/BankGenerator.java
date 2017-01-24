@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.datastax.banking.model.Account;
 import com.datastax.banking.model.Customer;
 import com.datastax.banking.model.Transaction;
+import com.datastax.banking.service.BankService;
 
 public class BankGenerator {
 
@@ -90,28 +91,24 @@ public class BankGenerator {
 		return accounts;
 	}	
 	
-	public static Transaction createRandomTransaction(int noOfDays, int noOfCreditCards, String[] array, Map<String, Set<String>> accountCustomers) {
+	public static Transaction createRandomTransaction(int noOfDays, int noOfCustomers, BankService bankService) {
 
 		int noOfMillis = noOfDays * DAY_MILLIS;
 		// create time by adding a random no of millis 
 		DateTime newDate = date.plusMillis(new Double(Math.random() * noOfMillis).intValue() + 1);
 		
-		return createRandomTransaction(newDate, noOfCreditCards, array, accountCustomers);
+		return createRandomTransaction(newDate, noOfCustomers, bankService);
 	}
 
-	public static Transaction createRandomTransaction(DateTime newDate, int noOfCreditCards, String[] array, Map<String, Set<String>> accountCustomers) {
+	public static Transaction createRandomTransaction(DateTime newDate, int noOfCustomers, BankService bankService) {
 
-		//Random account		
-		String accountNo;
-		if (Math.random()*100 < 1 && whiteList.size() > 0){
-			accountNo = whiteList.get(new Double(Math.random()*whiteList.size()).intValue());
-			logger.info ("WhiteList : "+ accountNo);
-		}else{
-			accountNo = array[new Double(Math.random()*array.length).intValue()];
-		}
-
-		Set<String> customers = accountCustomers.get(accountNo);
-
+		//Random account	
+		String customerId = getRandomCustomerId(noOfCustomers);
+		
+		List<Account> accounts = bankService.getAccounts(customerId);
+		
+		Account account = accounts.get(new Double(Math.random() * accounts.size()).intValue());
+		
 		int noOfItems = new Double(Math.ceil(Math.random() * 5)).intValue();
 		String location = locations.get(new Double(Math.random() * locations.size()).intValue());
 
@@ -125,8 +122,8 @@ public class BankGenerator {
 
 		Transaction transaction = new Transaction();
 		createItemsAndAmount(noOfItems, transaction);
-		transaction.setAccountNo(accountNo);
-		transaction.setCustomers(customers);
+		transaction.setAccountNo(account.getAccountNo());
+		transaction.setCustomers(account.getCustomers());
 		transaction.setMerchant(issuer);
 		transaction.setTransactionId(UUID.randomUUID().toString());
 		transaction.setTransactionTime(newDate.toDate());

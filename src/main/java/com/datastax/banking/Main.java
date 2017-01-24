@@ -20,6 +20,7 @@ import com.datastax.banking.data.BankGenerator;
 import com.datastax.banking.model.Account;
 import com.datastax.banking.model.Customer;
 import com.datastax.banking.model.Transaction;
+import com.datastax.banking.service.BankService;
 import com.datastax.demo.utils.KillableRunner;
 import com.datastax.demo.utils.PropertyHelper;
 import com.datastax.demo.utils.ThreadUtils;
@@ -45,7 +46,6 @@ public class Main {
 		ExecutorService executor = Executors.newFixedThreadPool(noOfThreads);
 		BankDao dao = new BankDao(contactPointsStr.split(","));
 				
-
 		int noOfTransactions = Integer.parseInt(noOfTransactionsStr);
 		int noOfCustomers = Integer.parseInt(noOfCustomersStr);
 		boolean create = Boolean.parseBoolean(createStr);
@@ -60,20 +60,9 @@ public class Main {
 			executor.execute(task);
 			tasks.add(task);
 		}						
-		
-		Timer timer = new Timer();		
-		Map<String, Set<String>> accountCustomers = dao.getAccountCustomers();
-		timer.end();
-		logger.info("Took " + timer.getTimeTakenSeconds() + " secs to load " + accountCustomers.size() + " accounts.");
-			
-		if (accountCustomers.isEmpty()){
-			logger.info("No Customers");
-			System.exit(0);
-		}
-		
-		String[] array = accountCustomers.keySet().toArray(new String[0]);
+				
 		BankGenerator.date = new DateTime().minusDays(noOfDays).withTimeAtStartOfDay();
-		timer = new Timer();
+		Timer timer = new Timer();
 		
 		int totalTransactions = noOfTransactions * noOfDays;
 		
@@ -81,7 +70,7 @@ public class Main {
 		for (int i = 0; i < totalTransactions; i++) {
 			
 			try{
-				queue.put(BankGenerator.createRandomTransaction(noOfDays, noOfCustomers, array, accountCustomers));
+				queue.put(BankGenerator.createRandomTransaction(noOfDays, noOfCustomers, BankService.getInstance()));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -98,7 +87,7 @@ public class Main {
 		 
 		while(true){
 			try{
-				queue.put(BankGenerator.createRandomTransaction(new DateTime(), noOfCustomers, array, accountCustomers));
+				queue.put(BankGenerator.createRandomTransaction(new DateTime(), noOfCustomers, BankService.getInstance()));
 				
 				sleep(new Double(Math.random()*20).intValue());
 				
@@ -109,7 +98,7 @@ public class Main {
 					int someNumber = new Double(Math.random()*10).intValue();
 					
 					for (int i=0; i < someNumber; i++){
-						queue.put(BankGenerator.createRandomTransaction(noOfDays, noOfCustomers, array, accountCustomers));
+						queue.put(BankGenerator.createRandomTransaction(noOfDays, noOfCustomers, BankService.getInstance()));
 						
 						
 						if (new Double(Math.random()*100).intValue() > 2){
