@@ -118,7 +118,7 @@ public class BankGenerator {
 		}
 
 		Account account = accounts.get(new Double(Math.random() * accounts.size()).intValue());
-		
+			
 		int noOfItems = new Double(Math.ceil(Math.random() * 5)).intValue();
 		String location = locations.get(new Double(Math.random() * locations.size()).intValue());
 

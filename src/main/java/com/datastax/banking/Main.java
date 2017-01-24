@@ -70,7 +70,10 @@ public class Main {
 		for (int i = 0; i < totalTransactions; i++) {
 			
 			try{
-				queue.put(BankGenerator.createRandomTransaction(noOfDays, noOfCustomers, BankService.getInstance()));
+				Transaction randomTransaction = BankGenerator.createRandomTransaction(noOfDays, noOfCustomers, BankService.getInstance());
+				if (randomTransaction!=null){
+					queue.put(randomTransaction);
+				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -87,8 +90,10 @@ public class Main {
 		 
 		while(true){
 			try{
-				queue.put(BankGenerator.createRandomTransaction(new DateTime(), noOfCustomers, BankService.getInstance()));
-				
+				Transaction randomTransaction = BankGenerator.createRandomTransaction(new DateTime(), noOfCustomers, BankService.getInstance());
+				if (randomTransaction!=null){
+					queue.put(randomTransaction);
+				}
 				sleep(new Double(Math.random()*20).intValue());
 				
 				double d = r.nextGaussian()*-1d;
@@ -98,9 +103,11 @@ public class Main {
 					int someNumber = new Double(Math.random()*10).intValue();
 					
 					for (int i=0; i < someNumber; i++){
-						queue.put(BankGenerator.createRandomTransaction(noOfDays, noOfCustomers, BankService.getInstance()));
-						
-						
+						randomTransaction = BankGenerator.createRandomTransaction(new DateTime(), noOfCustomers, BankService.getInstance());
+						if (randomTransaction!=null){
+							queue.put(randomTransaction);
+						}
+												
 						if (new Double(Math.random()*100).intValue() > 2){
 							sleep(new Double(Math.random()*100).intValue());
 						}
