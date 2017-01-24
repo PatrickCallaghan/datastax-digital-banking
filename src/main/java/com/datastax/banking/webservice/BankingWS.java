@@ -30,7 +30,6 @@ public class BankingWS {
 	private SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyyMMdd");
 
 	//Service Layer.
-	private SearchService service = new SearchServiceImpl();
 	private BankService bankService = BankService.getInstance();
 
 	
