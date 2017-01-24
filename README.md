@@ -16,14 +16,6 @@ You can use the following parameters to change the default no of transactions, c
 RealTime transactions
 When all historical transactions are loaded, the process will start creating random transactions for todays date and time. If you wish just to run real time transactions specify -DnoOfDays=0.
 
-An example of cql queries would be
-
-	select * from bank.transactions where account_no = 'c593a162-ffa1-4fb6-bbbd-0314016e7e33' and bucket = '1' limit 20000;
-		
-Get all accounts for a customer along with their balance and last updated time.
-
-	select * from accounts where account
-
 To use the web service run 
 
 	mvn jetty:run
