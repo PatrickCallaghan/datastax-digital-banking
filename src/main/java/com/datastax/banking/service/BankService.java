@@ -11,7 +11,7 @@ import com.datastax.demo.utils.PropertyHelper;
 public class BankService {
 
 	private static String contactPointsStr = PropertyHelper.getProperty("contactPoints", "localhost");
-	private static BankService bankService;
+	private static BankService bankService = new BankService();
 	private BankDao dao;
 	
 	private BankService(){
