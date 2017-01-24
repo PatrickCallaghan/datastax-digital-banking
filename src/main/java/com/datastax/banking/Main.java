@@ -32,6 +32,7 @@ public class Main {
 	public Main() {
 
 		String contactPointsStr = PropertyHelper.getProperty("contactPoints", "localhost");
+		String createStr = PropertyHelper.getProperty("create", "false");
 		String noOfCustomersStr = PropertyHelper.getProperty("noOfCustomers", "10000");
 		String noOfTransactionsStr = PropertyHelper.getProperty("noOfTransactions", "10000");
 		int noOfDays = Integer.parseInt(PropertyHelper.getProperty("noOfDays", "180"));
@@ -47,8 +48,11 @@ public class Main {
 
 		int noOfTransactions = Integer.parseInt(noOfTransactionsStr);
 		int noOfCustomers = Integer.parseInt(noOfCustomersStr);
+		boolean create = Boolean.parseBoolean(createStr);
 		
-		createCustomerAccount(noOfCustomers, dao);		
+		if (create){
+			createCustomerAccount(noOfCustomers, dao);
+		}
 
 		for (int i = 0; i < noOfThreads; i++) {
 			
