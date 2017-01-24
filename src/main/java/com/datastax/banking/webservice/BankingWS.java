@@ -19,8 +19,6 @@ import com.datastax.banking.model.Account;
 import com.datastax.banking.model.Customer;
 import com.datastax.banking.model.Transaction;
 import com.datastax.banking.service.BankService;
-import com.datastax.banking.service.SearchService;
-import com.datastax.banking.service.SearchServiceImpl;
 
 @WebService
 @Path("/")

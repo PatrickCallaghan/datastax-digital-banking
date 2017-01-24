@@ -94,6 +94,10 @@ public class BankDao {
 			Row row = iterator.next();
 		
 			accountCustomers.put(row.getString("account_no"), row.getSet("customers", String.class));
+			
+			if (accountCustomers.size() % 10000==0){
+				logger.info(accountCustomers.size() + " loaded.");
+			}
 		}
 		return accountCustomers;
 	}
