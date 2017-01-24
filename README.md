@@ -5,9 +5,9 @@ To create the schema, run the following
 
 	mvn clean compile exec:java -Dexec.mainClass="com.datastax.demo.SchemaSetup" -DcontactPoints=localhost
 
-To create the customers, accounts and transactions, run the following 
+To create the customers, accounts and transactions, run the following (note the create parameter to create customers and accounts as well)
 	
-	mvn clean compile exec:java -Dexec.mainClass="com.datastax.banking.Main"  -DcontactPoints=localhost
+	mvn clean compile exec:java -Dexec.mainClass="com.datastax.banking.Main"  -DcontactPoints=localhost -Dcreate=true
 
 You can use the following parameters to change the default no of transactions, customers and no of days.
 	

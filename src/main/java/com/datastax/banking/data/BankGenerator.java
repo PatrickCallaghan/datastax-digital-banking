@@ -106,7 +106,11 @@ public class BankGenerator {
 		String customerId = getRandomCustomerId(noOfCustomers);
 		
 		List<Account> accounts = bankService.getAccounts(customerId);
-		
+
+		if (accounts.size() == 0){
+			return null;
+		}
+
 		Account account = accounts.get(new Double(Math.random() * accounts.size()).intValue());
 		
 		int noOfItems = new Double(Math.ceil(Math.random() * 5)).intValue();
