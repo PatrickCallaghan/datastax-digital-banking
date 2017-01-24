@@ -111,6 +111,7 @@ public class BankGenerator {
 			accounts = accountsMap.get(customerId);
 		}else{
 			accounts = bankService.getAccounts(customerId);
+			accountsMap.put(customerId, accounts);
 		}
 
 		if (accounts.size() == 0){
