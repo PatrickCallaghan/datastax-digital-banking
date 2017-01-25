@@ -120,7 +120,7 @@ public class BankGenerator {
 
 		Account account = accounts.get(new Double(Math.random() * accounts.size()).intValue());
 			
-		int noOfItems = new Double(Math.ceil(Math.random() * 5)).intValue();
+		int noOfItems = new Double(Math.ceil(Math.random() * 3)).intValue();
 		String location = locations.get(new Double(Math.random() * locations.size()).intValue());
 
 		int randomLocation = new Double(Math.random() * issuers.size()).intValue();
@@ -155,7 +155,7 @@ public class BankGenerator {
 
 		for (int i = 0; i < noOfItems; i++) {
 
-			double amount = new Double(Math.random() * 1000);
+			double amount = new Double(Math.random() * 100);
 			items.put("item" + i, amount);
 
 			totalAmount += amount;
